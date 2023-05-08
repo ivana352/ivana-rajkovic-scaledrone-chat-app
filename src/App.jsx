@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 
 
@@ -13,3 +13,90 @@ function randomName() {
     //return adjective + '' + noun;
     return `${adjective} ${noun}`;
 }
+
+function randomColor() {
+    // return "#" + Math.floor(Math.random() * 0xffffff).toString(16);
+    const colors = [ '#6600CC', '#00FF66', '#FF3399', '#FF6666', '#00695C', '#FF5722', '#546E7A', '#1976D2', '#9C27B0', '#660000', '#336633', '#000066', '#003366', '#99FF00', '#990066' ];
+
+    const index = Math.floor(Math.random() * colors.length);
+    return colors[index];
+}
+
+function App () {
+    const [messages, setMessage] = useState([]);
+
+    const [username, setUsername] = useState(randomName());
+
+    const [clientId, setClientId] = useState();
+    
+    const [color, setColor] = useState(randomColor());
+
+    const [drone, setDrone] = useState();
+
+    const roomName = 'observable-red-rum'
+
+
+    useEffect(function() {
+        const drone = new window.Scaledrone("r3L2NUYI7CY6rDnq", {
+            data: {
+                name: username,
+                color: color
+            },
+        });
+
+        drone.on("open", (error) => {
+            if (error) {
+                return console.log(error);
+            }
+            setClientId(drone.clientId)
+        });
+
+        const room = drone.subscribe(roomName);
+
+        room.on("message", (message) => {
+            console.debug(message + "is added");
+            const { data, id, timestamp, clientId, member} = message
+
+            setMessages(oldMessages => {
+                if (!messages) {
+                    console.error("messages je prazan")
+                }
+                return[...oldMessages, {member, text: data}];
+            });
+        });
+
+        setDrone(drone);
+
+        return () => {
+            room.unsubscribe();
+            drone.close();
+        }
+    }, []);
+
+    const sendMessageToChat = (message) => {
+        drone.publish({
+            room: roomName,
+            message
+        });
+    };
+
+    return (
+        <div className="App">
+            <div className="App-header">
+                <h1>My Chat App</h1>
+            </div>
+            <Messages 
+                messages={messages}
+                currentMember={{
+                        username, color, clientId
+                }}
+            />
+
+            <NewMessage />
+        </div>
+
+    );
+
+}
+
+export default App;
