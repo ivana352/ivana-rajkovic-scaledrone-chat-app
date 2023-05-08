@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 
+import Messages from "./Messages/Messages";
+import NewMessage from "./NewMessage/NewMessage";
+
 
 function randomName() {
-    const adjectives = ["sretni", "grbavi", "crni", "skrti", "zlocesti", "lijepi", "pametni", "sramezljiv", "brzi", "plemeniti"];
-    const nouns = ["petar", "jura", "pero", "ananas", "kebab", "krumpir", "lisac", "ajvar", "lonac", "oblak"];
+    const adjectives = ["Ivan", "Ivana", "Marin", "Marina", "Viktor", "Viktorija", "Karlo", "Karla", "Tomislav", "Tomislava"];
+    const nouns = ["Horvat", "Peric", "Ivic", "Petrovic", "Stanek", "Ivancan", "Lipic", "Novak"];
 
     const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
     const noun = nouns[Math.floor(Math.random() * nouns.length)];
@@ -23,7 +26,7 @@ function randomColor() {
 }
 
 function App () {
-    const [messages, setMessage] = useState([]);
+    const [messages, setMessages] = useState([]);
 
     const [username, setUsername] = useState(randomName());
 
@@ -92,7 +95,7 @@ function App () {
                 }}
             />
 
-            <NewMessage />
+            <NewMessage sendMessage = {sendMessageToChat}/>
         </div>
 
     );
