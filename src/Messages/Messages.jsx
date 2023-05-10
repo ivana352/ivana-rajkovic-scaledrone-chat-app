@@ -6,14 +6,18 @@ const Messages = (props) => {
     const className = messageFromMe ? "currentMember" : "";
 
     return(
-        <li className={"Messages-message " + className}>
+        <li className={"Messages-message " + className} 
+            // key={Math.random()*1000 }
+            key={member.clientData}
+        >
             <span
                 className="avatar"
                 style={{backgroundColor: member.clientData.color }}
             >
                 {getMessageInitials(member.clientData.name)}
             </span>
-            <div className="Message-content">
+
+            <div className="Message-content" >
                 <div className="username">{member.clientData.username}</div>
                 <div className="text">{text}</div>
             </div>
@@ -27,9 +31,10 @@ const Messages = (props) => {
  };
 
  return(
-    <ul className="Messages-list">
-        {props.messages.map((m) => renderMessage(m))}
-    </ul>
+        <ul className="Messages-list"> 
+            {props.messages.map((m) => renderMessage(m))}
+        </ul>  
+    
  );
 };
 
