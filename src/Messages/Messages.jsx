@@ -7,8 +7,8 @@ const Messages = (props) => {
 
     return(
         <li className={"Messages-message " + className} 
-            // key={Math.random()*1000 }
-            key={member.clientData}
+            key={Math.random()*100000 }
+            //key={member.clientData}
         >
             <span
                 className="avatar"
