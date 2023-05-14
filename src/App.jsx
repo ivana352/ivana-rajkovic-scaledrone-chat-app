@@ -12,7 +12,6 @@ function randomName() {
     const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
     const noun = nouns[Math.floor(Math.random() * nouns.length)];
 
-    //OVA FUNKCIJA SPAJA ADJECTIVE I NOUN, MOZE SE PISATI NA 2 NACINA
     //return adjective + '' + noun;
     return `${adjective} ${noun}`;
 }
@@ -58,7 +57,7 @@ function App () {
 
         room.on("message", (message) => {
             console.debug(message + "is added");
-            const { data, id, timestamp, clientId, member} = message
+            const { data, id, clientId, member} = message
 
             setMessages(oldMessages => {
                 if (!messages) {
@@ -91,7 +90,7 @@ function App () {
             <Messages 
                 messages={messages}
                 currentMember={{
-                        username, color, clientId
+                    username, color, clientId
                 }}
             />
 
