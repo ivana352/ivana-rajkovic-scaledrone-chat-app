@@ -19,10 +19,16 @@ const NewMessage = (props) => {
                 value={text}
                 type="text"
                 placeholder="Enter your message here."
+                autoFocus= {true}
             />
-            <button onClick={() => onSendMessage()}> Send ▶ </button>
-        </div>
+                        
+             <button onClick={() => onSendMessage()} disabled={text.length === 0}> Send ▶ </button>
+
+                    
+        </div>          
     )
-}
+};
+        
+
 
 export default NewMessage;
